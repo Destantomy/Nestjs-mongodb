@@ -1,0 +1,1 @@
+- to install mongoose which a mongodb library to interact with database : npm i @nestjs/mongoose mongoose
