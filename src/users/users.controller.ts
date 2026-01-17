@@ -7,9 +7,12 @@ import {
   HttpException,
   UsePipes,
   ValidationPipe,
+  Patch,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/CreateUser.dto';
+import { UpdateUserDto } from './dto/UpdateUser.dto';
+import mongoose from 'mongoose';
 
 @Controller('users')
 export class UsersController {
@@ -33,5 +36,19 @@ export class UsersController {
     const findUser = await this.usersService.getUserById(id);
     if (!findUser) throw new HttpException('user not found', 404);
     return findUser;
+  }
+
+  @Patch(':id')
+  @UsePipes(new ValidationPipe())
+  async updateUser(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    const isValid = mongoose.Types.ObjectId.isValid(id);
+    if (!isValid) throw new HttpException('invalid id', 400);
+    const updatedUser = await this.usersService.updateUser(id, updateUserDto);
+    // console.log(updatedUser);
+    if (!updatedUser) throw new HttpException('user not found', 404);
+    return updatedUser;
   }
 }
