@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Post,
+  Get,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -17,5 +18,10 @@ export class UsersController {
   createUser(@Body() createUserDto: CreateUserDto) {
     console.log(createUserDto);
     return this.usersService.createUser(createUserDto);
+  }
+
+  @Get()
+  getUsers() {
+    return this.usersService.getsUsers();
   }
 }
