@@ -3,6 +3,8 @@ import {
   Controller,
   Post,
   Get,
+  Param,
+  HttpException,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -23,5 +25,13 @@ export class UsersController {
   @Get()
   getUsers() {
     return this.usersService.getsUsers();
+  }
+
+  // users/:id
+  @Get(':id')
+  async getUserById(@Param('id') id: string) {
+    const findUser = await this.usersService.getUserById(id);
+    if (!findUser) throw new HttpException('user not found', 404);
+    return findUser;
   }
 }
