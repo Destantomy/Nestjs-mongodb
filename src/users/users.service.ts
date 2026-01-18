@@ -29,7 +29,7 @@ export class UsersService {
   }
 
   getsUsers() {
-    return this.userModel.find().populate('settings');
+    return this.userModel.find().populate(['settings', 'posts']);
   }
 
   getUserById(id: string) {
